@@ -2,6 +2,7 @@ import { useState, useRef, useContext } from 'react';
 import AuthContext from "../../store/AuthContext";
 import { Nav } from "react-bootstrap"
 import classes from './AuthForm.module.css';
+import axios from 'axios';
 
 const AuthForm = () => {
   const emailInputRef = useRef();
@@ -18,7 +19,7 @@ const AuthForm = () => {
     setIsLogin((prevState) => !prevState);
   };
 
-  const formSubmitHandler = (event) => {
+  async function formSubmitHandler(event) {
     event.preventDefault();
 
     const enteredEmail = emailInputRef.current.value;
@@ -46,33 +47,49 @@ const AuthForm = () => {
       url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDHMqQkqmIyImQE6qLDutjgiQ4dNMSFKVw'
 
     };
-    fetch(url, {
-      method: 'POST',
-      body: JSON.stringify({
+
+    try {
+      const response = await axios.post(url, {
         email: enteredEmail,
         password: enteredPassword,
         returnSecureToken: true,
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-    ).then(res => {
+      })
       setIsLoading(false);
-      if (res.ok) {
-        return res.json();
-      } else {
-        return res.json().then((data) => {
-          const errorMessage = 'Authentication error';
-          throw new Error(errorMessage);
-        })
+      authCtx.login(response.data.idToken, response.data.email);
+      if (response.status === 200) {
+        console.log('User has successfully signed up');
       }
-    }).then((data) => {
-      authCtx.login(data.idToken, data.email);
-      console.log('User has successfully signed up');
-    }).catch((error) => {
-      alert(error.message);
-    })
+    } catch (err) {
+      console.log(err.message);
+    }
+
+    // fetch(url, {
+    //   method: 'POST',
+    //   body: JSON.stringify({
+    //     email: enteredEmail,
+    //     password: enteredPassword,
+    //     returnSecureToken: true,
+    //   }),
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // }
+    // ).then(res => {
+    //   setIsLoading(false);
+    //   if (res.ok) {
+    //     return res.json();
+    //   } else {
+    //     return res.json().then((data) => {
+    //       const errorMessage = 'Authentication error';
+    //       throw new Error(errorMessage);
+    //     })
+    //   }
+    // }).then((data) => {
+    //   authCtx.login(data.idToken, data.email);
+    //   console.log('User has successfully signed up');
+    // }).catch((error) => {
+    //   alert(error.message);
+    // })
 
 
   };

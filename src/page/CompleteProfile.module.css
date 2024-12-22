@@ -1,0 +1,89 @@
+/* Container with flex layout */
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+/* Right text box */
+.rightText {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    background-color: rgba(221, 202, 176, 0.767);
+    width: 400px;
+    height: 50px;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+/* Left text */
+.leftText {
+    flex: 1;
+}
+
+/* Right text with proper alignment */
+.rightText {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(221, 202, 176, 0.767);
+    width: 400px;
+    height: 50px;
+    border-radius: 15px;
+}
+
+/* Cancel button with a border and red text */
+button.cancel {
+    border: 2px solid #FF4D4D;
+    background-color: white;
+    color: #FF4D4D;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Cancel button hover effect */
+button.cancel:hover {
+    background-color: #FF4D4D;
+    color: white;
+}
+
+/* Form fields and labels styling */
+form {
+    margin-top: 20px;
+}
+
+form div {
+    margin-bottom: 10px;
+}
+
+form input {
+    padding: 8px;
+    border-radius: 5px;
+    width: 100%;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+}
+
+/* Update button styling */
+button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* HR line styling */
+hr {
+    border: 1px solid #ddd;
+    margin-top: 20px;
+}

@@ -1,14 +1,32 @@
 import { useContext } from "react";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import AuthForm from "./components/Auth/AuthForm";
 import AuthContext from "./store/AuthContext";
-import Welcome from "./page/welcome";
+import Welcome from "./page/Welcome";
+import CompleteProfile from "./page/CompleteProfile";
+
 function App() {
   const Authctx = useContext(AuthContext);
+
   return (
-    <>
-    {Authctx.isLoggedIn && <Welcome/>}
-    {!Authctx.isLoggedIn &&<AuthForm/>}
-    </>
+    <Router>
+      <Switch>
+       
+        {!Authctx.isLoggedIn && <Route path="/" exact component={AuthForm} />}
+
+        {/* Routes for logged-in users */}
+        {Authctx.isLoggedIn && (
+          <>
+            <Route path="/" exact component={Welcome} />
+            <Route path="/completeprofile" component={CompleteProfile} />
+          </>
+        )}
+
+        <Route path="*">
+          <Redirect to="/" />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
