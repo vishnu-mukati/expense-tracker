@@ -4,6 +4,7 @@ import AuthForm from "./components/Auth/AuthForm";
 import AuthContext from "./store/AuthContext";
 import Welcome from "./page/Welcome";
 import CompleteProfile from "./page/CompleteProfile";
+import ChangePassword from "./page/ChangePassword";
 
 function App() {
   const Authctx = useContext(AuthContext);
@@ -13,6 +14,10 @@ function App() {
       <Switch>
        
         {!Authctx.isLoggedIn && <Route path="/" exact component={AuthForm} />}
+
+        <Route path="/changepassword" component={ChangePassword}/>
+            
+        
 
         {/* Routes for logged-in users */}
         {Authctx.isLoggedIn && (

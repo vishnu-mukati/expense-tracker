@@ -129,7 +129,7 @@ const AuthForm = () => {
         </div>
 
         <div>
-          <Nav.Link href="#" className={classes.forgotPassword}>
+          <Nav.Link href="/changepassword" className={classes.forgotPassword}>
             Forgot Password?
           </Nav.Link>
         </div>
