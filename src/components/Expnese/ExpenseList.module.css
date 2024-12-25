@@ -1,0 +1,26 @@
+.expenses {
+    padding: 2rem; /* Increased padding for better spacing */
+    background-color: rgb(31, 31, 31);
+    margin: 2rem auto;
+    width: 50rem;
+    max-width: 95%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+    color: white;
+    list-style: none; /* Remove default list bullets */
+  }
+  
+  .expenses li {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #444; /* Slightly darker background for each item */
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for each item */
+  }
+  
+  .expenses li p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    font-weight: bold; /* Bold the text for better readability */
+    color: #fff;
+  }  

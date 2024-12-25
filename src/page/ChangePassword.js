@@ -1,4 +1,4 @@
-import { Fragment, useContext } from "react";
+import { Fragment, useContext ,useRef} from "react";
 import { Nav } from "react-bootstrap";
 import axios from "axios";
 import { useCol } from "react-bootstrap/esm/Col";
@@ -6,17 +6,19 @@ import AuthContext from "../store/AuthContext";
 
 
 const ChangePassword = () => {
+     const emailInputRef = useRef();
 
     const authCtx = useContext(AuthContext);
-    const token = authCtx.token;
+    // const email = authCtx.email;
 
     async function formSubmitHandler(event) {
+        console.log(emailInputRef.current.value);
         event.preventDefault();
         try {
             const response = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDHMqQkqmIyImQE6qLDutjgiQ4dNMSFKVw',
                 {
-                    requestType: "CHANGE_PASSWORD",
-                    idToken: token,
+                    requestType: "PASSWORD_RESET",
+                    email: emailInputRef.current.value,
                 }
             )
             console.log(response.data);
@@ -30,7 +32,7 @@ const ChangePassword = () => {
             <form onSubmit={formSubmitHandler}>
                 <div>
                     <label htmlFor="changepassword">Enter the email with which you have registered</label>
-                    <input type="text" id="changepassword" />
+                    <input type="text" id="changepassword" ref={emailInputRef}/>
                 </div>
                 <div>
                     <button>Send</button>

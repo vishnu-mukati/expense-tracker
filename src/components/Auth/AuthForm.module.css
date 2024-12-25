@@ -72,5 +72,26 @@
 
 .actions .toggle:hover {
   background-color: transparent;
-  color: #ae82cc;
+  color: #e5e5e5;
+}
+
+
+/* Forgot Password link styling */
+.forgotPassword {
+  color: #ececec; /* Matching color to the rest of the form */
+  text-decoration: none; /* Remove underline */
+  font-weight: bold;
+  display: inline-block; /* Ensure it stays on the same line */
+  margin-top: 1rem; /* Add some space above it */
+  font-size: 0.9rem; /* Slightly smaller font size */
+  transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+.forgotPassword:hover {
+  color: #ffffff; /* Darker shade for hover effect */
+  text-decoration: underline; /* Underline on hover */
+}
+
+.forgotPassword:active {
+  color: #6f2a9d; /* Darker color when clicked */
 }
