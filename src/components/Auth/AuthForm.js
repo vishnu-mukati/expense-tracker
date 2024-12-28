@@ -52,7 +52,6 @@ const AuthForm = () => {
         password: enteredPassword,
         returnSecureToken: true,
       })
-      console.log(response);
       setIsLoading(false);
       authCtx.login(response.data.idToken, response.data.email);
       token = response.data.idToken;
@@ -61,7 +60,6 @@ const AuthForm = () => {
       }
     } catch (err) {
       alert(err.response.data.error.message);
-      console.log(err);
       setIsLoading(false);
     }
 
@@ -75,41 +73,10 @@ const AuthForm = () => {
             },
 
         )
-        console.log(response.data);
     } catch (err) {
         console.log(err.message);
     }
     }
-
-    // fetch(url, {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     email: enteredEmail,
-    //     password: enteredPassword,
-    //     returnSecureToken: true,
-    //   }),
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // }
-    // ).then(res => {
-    //   setIsLoading(false);
-    //   if (res.ok) {
-    //     return res.json();
-    //   } else {
-    //     return res.json().then((data) => {
-    //       const errorMessage = 'Authentication error';
-    //       throw new Error(errorMessage);
-    //     })
-    //   }
-    // }).then((data) => {
-    //   authCtx.login(data.idToken, data.email);
-    //   console.log('User has successfully signed up');
-    // }).catch((error) => {
-    //   alert(error.message);
-    // })
-
-
   };
 
 

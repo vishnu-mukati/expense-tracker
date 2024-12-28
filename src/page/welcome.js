@@ -8,25 +8,7 @@ import ExpenseList from "../components/Expnese/ExpenseList";
 
 const Welcome = () => {
 
-    const authCtx = useContext(AuthContext);
-
-    const token = authCtx.token;
-
-    async function varifyEmailHandler(event) {
-        try {
-            const response = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDHMqQkqmIyImQE6qLDutjgiQ4dNMSFKVw',
-                {
-                    requestType: "VERIFY_EMAIL",
-                    idToken: token,
-                },
-
-            )
-            console.log(response.data);
-        } catch (err) {
-            console.log(err.message);
-        }
-    }
-
+   
     return (
         <div className={classes.container}>
             <div>
@@ -34,9 +16,6 @@ const Welcome = () => {
                 <ExpenseList />
             </div>
 
-            {/* <div>
-                <button onClick={varifyEmailHandler}>Verify Email id</button>
-            </div> */}
 
         </div>
     );

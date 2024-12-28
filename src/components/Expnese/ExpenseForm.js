@@ -1,8 +1,6 @@
-import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
 import classes from "./ExpenseForm.module.css";
-import AuthContext from "../../store/AuthContext";
-import axios from "axios";
+import ExpenseContext from "../../store/ExpenseContext";
 
 const ExpenseForm = () => {
 
@@ -11,7 +9,17 @@ const ExpenseForm = () => {
     const [entereddescription, setentereddescription] = useState('');
     const [showform, setshowForm] = useState(false);
 
-    const Authctx = useContext(AuthContext);
+    const Expensectx = useContext(ExpenseContext);
+    const editdata = Expensectx.editingexpense;
+
+    useEffect(()=>{
+        if(editdata){
+            setenteredTitle(editdata.title);
+            setentereddescription(editdata.description);
+            setenteredAmount(editdata.amount);
+            setshowForm(true);
+        }
+    },[editdata])
 
     const titleChangeHandler = (event) => {
 
@@ -35,23 +43,15 @@ const ExpenseForm = () => {
         setshowForm(false);
     }
 
-    async function formSubmitHandler (event){
+    const  formSubmitHandler = (event) =>{
         event.preventDefault();
         const ExpenseData = {
             title: enteredtitle,
             amount: enteredamount,
             description: entereddescription,
         }
-
-        try{
-            const response = await axios.post('https://expense-tracker-data-eea66-default-rtdb.firebaseio.com/expenses.json',
-            {
-                 ExpenseData,
-            })
-            Authctx.addExpense(ExpenseData);
-        }catch(err){
-            console.log(err.message);
-        }
+        Expensectx.addexpense(ExpenseData);
+       
 
         setenteredTitle("");
         setenteredAmount("");

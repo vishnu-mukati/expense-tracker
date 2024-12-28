@@ -1,6 +1,4 @@
-import React, { Fragment, useState, useContext, useEffect } from "react";
-import { Nav } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
 import AuthContext from "../store/AuthContext";
 import classes from "./CompleteProfile.module.css";
 import axios from "axios";
@@ -9,7 +7,7 @@ const CompleteProfile = () => {
     const authCtx = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(false);
     const [initialData, setInitialData] = useState({ displayName: "", photoUrl: "" });
-    console.log(initialData);
+   
     const token = authCtx.token;
 
 
@@ -37,7 +35,7 @@ const CompleteProfile = () => {
     async function getdata() {
         try {
             const response = await axios.post("https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDHMqQkqmIyImQE6qLDutjgiQ4dNMSFKVw", { "idToken": token })
-            console.log(response.data.users[0]);
+           
             const userdata = response.data.users[0];
             setInitialData({ displayName: userdata.displayName, photoUrl: userdata.photoUrl });
         } catch (err) {
@@ -65,7 +63,6 @@ const CompleteProfile = () => {
                 returnSecureToken: true
             })
             setIsLoading(false);
-            console.log(response);
             if (response.status === 200) {
                 console.log('Profile updated successfully');
             }

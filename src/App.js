@@ -6,29 +6,32 @@ import Welcome from "./page/Welcome";
 import CompleteProfile from "./page/CompleteProfile";
 import ChangePassword from "./page/ChangePassword";
 import Navbar from "./components/Layout/Navbar";
+import { ExpenseContextProvider } from "./store/ExpenseContext";
 
 function App() {
   const Authctx = useContext(AuthContext);
 
   return (
-    <BrowserRouter>
-      <Navbar />
-      <Switch>
-        {!Authctx.isLoggedIn && <Route path="/" exact component={AuthForm} />}
-        <Route path="/changepassword" component={ChangePassword} />
+    <ExpenseContextProvider>
+      <BrowserRouter>
+        <Navbar />
+        <Switch>
+          {!Authctx.isLoggedIn && <Route path="/" exact component={AuthForm} />}
+          <Route path="/changepassword" component={ChangePassword} />
 
-        {Authctx.isLoggedIn && (
-          <Route path="/" exact component={Welcome} />
-        )}
-        {Authctx.isLoggedIn && (
-          <Route path="/completeprofile" component={CompleteProfile} />
+          {Authctx.isLoggedIn && (
+            <Route path="/" exact component={Welcome} />
+          )}
+          {Authctx.isLoggedIn && (
+            <Route path="/completeprofile" component={CompleteProfile} />
 
-        )}
-        <Route path="*">
-          <Redirect to="/" />
-        </Route>
-      </Switch>
-    </BrowserRouter>
+          )}
+          <Route path="*">
+            <Redirect to="/" />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    </ExpenseContextProvider>
   );
 }
 
