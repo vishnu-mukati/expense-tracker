@@ -1,68 +1,100 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import classes from "./ExpenseForm.module.css";
-import ExpenseContext from "../../store/ExpenseContext";
+import { useDispatch, useSelector } from "react-redux";
+import { expenseAction } from "../../store/ExpensesSlice";
+import axios from "axios";
 
-const ExpenseForm = () => {
+const ExpenseForm = ({ showForm, setShowForm, enteredTitle, setEnteredTitle, enteredAmount, setEnteredAmount, enteredDescription, setEnteredDescription }) => {
 
-    const [enteredtitle, setenteredTitle] = useState('');
-    const [enteredamount, setenteredAmount] = useState('');
-    const [entereddescription, setentereddescription] = useState('');
-    const [showform, setshowForm] = useState(false);
+    const dispatch = useDispatch();
 
-    const Expensectx = useContext(ExpenseContext);
-    const editdata = Expensectx.editingexpense;
-
-    useEffect(()=>{
-        if(editdata){
-            setenteredTitle(editdata.title);
-            setentereddescription(editdata.description);
-            setenteredAmount(editdata.amount);
-            setshowForm(true);
-        }
-    },[editdata])
+    const editdata = useSelector(state => state.expense.editexpense);
 
     const titleChangeHandler = (event) => {
 
-        setenteredTitle(event.target.value);
+        setEnteredTitle(event.target.value);
     }
 
     const amountChangeHandler = (event) => {
 
-        setenteredAmount(event.target.value);
+        setEnteredAmount(event.target.value);
     }
 
     const descriptionChangeHandler = (event) => {
-        setentereddescription(event.target.value);
+        setEnteredDescription(event.target.value);
     }
 
     const showFormHandler = () => {
-        setshowForm(true);
+        setShowForm(true);
     }
 
     const cancelFormHandler = () => {
-        setshowForm(false);
+        setShowForm(false);
+        sessionStorage.clear();
     }
 
-    const  formSubmitHandler = (event) =>{
+    async function editdataHandler() {
+        try {
+            const expenseToEdit = editdata.item; console.log(expenseToEdit.id);
+            // Update the existing expense entry in Firebase using its `id` 
+            const updatedExpense = { title: enteredTitle, amount: enteredAmount, description: enteredDescription, };
+
+            await axios.put(`https://expense-tracker-data-eea66-default-rtdb.firebaseio.com/expenses/${expenseToEdit.id}.json`, updatedExpense);
+
+            const updatedExpenseWithId = { id: expenseToEdit.id, ...updatedExpense };
+            console.log(updatedExpenseWithId);
+            dispatch(expenseAction.updatedata(updatedExpenseWithId));
+            // Clear the form and reset the edit state 
+            dispatch(expenseAction.editexpense(null));
+            setEnteredTitle("");
+            setEnteredAmount("");
+            setEnteredDescription("");
+            setShowForm(false);
+        } catch (err) {
+            console.log(err.message);
+        }
+    }
+
+    const cancleeditdataHandler = () => {
+        dispatch(expenseAction.editexpense(null));
+        setEnteredTitle("");
+        setEnteredAmount("");
+        setEnteredDescription("");
+        setShowForm(false);
+    }
+
+    async function formSubmitHandler(event) {
         event.preventDefault();
         const ExpenseData = {
-            title: enteredtitle,
-            amount: enteredamount,
-            description: entereddescription,
+            title: enteredTitle,
+            amount: enteredAmount,
+            description: enteredDescription,
         }
-        Expensectx.addexpense(ExpenseData);
-       
+        // Expensectx.addexpense(ExpenseData);
 
-        setenteredTitle("");
-        setenteredAmount("");
-        setentereddescription("");
-        setshowForm(false);
+        //
+        try {
+            const response = await axios.post('https://expense-tracker-data-eea66-default-rtdb.firebaseio.com/expenses.json', ExpenseData)
+            const newexpense = { id: response.data.name, ...ExpenseData };
+            dispatch(expenseAction.addexpense(newexpense));
+        } catch (err) {
+            console.log(err.message);
+        }
+
+
+
+
+
+        setEnteredTitle("");
+        setEnteredAmount("");
+        setEnteredDescription("");
+        setShowForm(false);
     }
 
     return (
         <>
             <div className={classes["centered-container"]}>
-                {showform ? (
+                {showForm ? (
                     <div className={classes["form-box"]}>
                         <form onSubmit={formSubmitHandler}>
                             <div className={classes["new-expense__controls"]}>
@@ -71,7 +103,7 @@ const ExpenseForm = () => {
                                     <input
                                         type="number"
                                         id="amount"
-                                        value={enteredamount}
+                                        value={enteredAmount}
                                         onChange={amountChangeHandler}
                                     />
                                 </div>
@@ -81,7 +113,7 @@ const ExpenseForm = () => {
                                     <input
                                         type="text"
                                         id="description"
-                                        value={entereddescription}
+                                        value={enteredDescription}
                                         onChange={descriptionChangeHandler}
                                     />
                                 </div>
@@ -90,7 +122,7 @@ const ExpenseForm = () => {
                                     <label htmlFor="title">Title</label>
                                     <select
                                         id="title"
-                                        value={enteredtitle}
+                                        value={enteredTitle}
                                         onChange={titleChangeHandler}
                                     >
                                         <option value="">Select Title</option>
@@ -102,10 +134,10 @@ const ExpenseForm = () => {
                             </div>
 
                             <div className={classes["new-expense__actions"]}>
-                                <button type="button" onClick={cancelFormHandler}>
+                                {editdata ? <button onClick={cancleeditdataHandler}>Cancle</button> : <button type="button" onClick={cancelFormHandler}>
                                     Close
-                                </button>
-                                <button type="submit">Add Expense</button>
+                                </button>}
+                                {editdata ? <button type="button" onClick={editdataHandler}>Edit</button> : <button type="submit">Add Expense</button>}
                             </div>
                         </form>
                     </div>

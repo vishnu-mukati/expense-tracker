@@ -1,16 +1,21 @@
-import { useState, useRef, useContext } from 'react';
-import AuthContext from "../../store/AuthContext";
+import { useState, useRef } from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import { Nav } from "react-bootstrap"
 import classes from './AuthForm.module.css';
 import axios from 'axios';
+import { authActions } from '../../store/AuthSlice';
+import { useHistory } from "react-router-dom";
 
 const AuthForm = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const confirmpasswordInputRef = useRef();
+  const history = useHistory();
+  // const authCtx = useContext(AuthContext);
 
-  const authCtx = useContext(AuthContext);
- 
+ const dispatch = useDispatch();
+ const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+ const email = useSelector(state =>state.auth.email);
 
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -53,7 +58,8 @@ const AuthForm = () => {
         returnSecureToken: true,
       })
       setIsLoading(false);
-      authCtx.login(response.data.idToken, response.data.email);
+      // authCtx.login(response.data.idToken, response.data.email);
+      dispatch(authActions.login({email : enteredEmail,token : response.data.idToken}))
       token = response.data.idToken;
       if (response.status === 200) {
         console.log('User has successfully signed up');
@@ -73,6 +79,7 @@ const AuthForm = () => {
             },
 
         )
+        history.push("/");
     } catch (err) {
         console.log(err.message);
     }

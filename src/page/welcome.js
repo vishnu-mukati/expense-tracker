@@ -1,24 +1,37 @@
-import { Nav } from "react-bootstrap";
-import classes from "./Welcome.module.css";
-import axios from "axios";
-import { useContext } from "react";
-import AuthContext from "../store/AuthContext";
 import ExpenseForm from "../components/Expnese/ExpenseForm";
 import ExpenseList from "../components/Expnese/ExpenseList";
+import { useState } from "react";
 
 const Welcome = () => {
 
-   
-    return (
-        <div className={classes.container}>
-            <div>
-                <ExpenseForm />
-                <ExpenseList />
-            </div>
+    const [enteredTitle, setEnteredTitle] = useState("");
+  const [enteredAmount, setEnteredAmount] = useState("");
+  const [enteredDescription, setEnteredDescription] = useState("");
+  const [showForm, setShowForm] = useState(false);
 
+   const setFormData = (item) =>{
 
-        </div>
-    );
+    setEnteredTitle(item.title);
+    setEnteredAmount(item.amount);
+    setEnteredDescription(item.description);
+    setShowForm(true); // Open the form for editing
+  };
+
+  return (
+    <>
+      <ExpenseForm
+        showForm={showForm}
+        setShowForm={setShowForm}
+        enteredTitle={enteredTitle}
+        setEnteredTitle={setEnteredTitle}
+        enteredAmount={enteredAmount}
+        setEnteredAmount={setEnteredAmount}
+        enteredDescription={enteredDescription}
+        setEnteredDescription={setEnteredDescription}
+      />
+      <ExpenseList setFormData={setFormData} />
+    </>
+  );
 }
 
 export default Welcome;

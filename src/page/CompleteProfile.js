@@ -1,15 +1,18 @@
-import React, { useState, useContext, useEffect } from "react";
-import AuthContext from "../store/AuthContext";
+import React, { useState, useEffect } from "react";
 import classes from "./CompleteProfile.module.css";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../store/AuthSlice";
 
 const CompleteProfile = () => {
-    const authCtx = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(false);
     const [initialData, setInitialData] = useState({ displayName: "", photoUrl: "" });
-   
-    const token = authCtx.token;
-
+    
+    const token = useSelector(state=>state.auth.token)
+    
+ 
+   const dispatch = useDispatch();
+    
 
     const inputNameHandler = (event) => {
         setInitialData((prevState) => ({
@@ -25,7 +28,8 @@ const CompleteProfile = () => {
 
 
     const logOutHandler = () => {
-        authCtx.logout();
+        // authCtx.logout();
+        dispatch(authActions.logout());
     }
 
     useEffect(() => {
