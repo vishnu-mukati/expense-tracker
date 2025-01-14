@@ -81,3 +81,8 @@
     background-color: #c291e2;
     color: #38015c;
   }
+
+  .header.darkTheme {
+    background-color: #121212; /* Dark background */
+    color: #ffffff; /* White text */
+  }

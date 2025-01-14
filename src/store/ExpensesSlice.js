@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialExpeseState = {
     expensedata: [],
     editexpense : null ,
+    dataloaded : false
 }
 
 const ExpensesSlice = createSlice({
@@ -20,7 +21,11 @@ const ExpensesSlice = createSlice({
         },
         updatedata (state,action){
            state.expensedata = [...state.expensedata ,action.payload];
+        },
+        dataloaded (state) {
+            state.dataloaded = true;
         }
+       
     }
     
 })

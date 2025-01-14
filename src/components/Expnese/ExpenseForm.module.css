@@ -87,3 +87,25 @@
 .add-expense-button:hover {
   background-color: #510674;
 }
+
+.centered-container.darkTheme  {
+  background-color: #121212; /* Dark background */
+  color: #ffffff; /* White text */
+}
+
+.new-expense__controls.darkTheme{
+  background-color: #484848;
+  color: #ffffff;
+}
+
+
+.form-box.darkTheme{
+  background-color: #484848;
+  color: #ffffff;
+}
+.new-expense__actions.darkTheme{
+  background-color: #121212;
+  color: #ffffff;
+}
+
+

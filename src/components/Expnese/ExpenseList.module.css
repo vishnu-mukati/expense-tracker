@@ -24,3 +24,9 @@
     font-weight: bold; /* Bold the text for better readability */
     color: #fff;
   }  
+
+  .expenses.darkTheme li{
+    color: white;
+    background-color: black;
+    
+  }

@@ -7,6 +7,7 @@ import axios from "axios";
 const ExpenseForm = ({ showForm, setShowForm, enteredTitle, setEnteredTitle, enteredAmount, setEnteredAmount, enteredDescription, setEnteredDescription }) => {
 
     const dispatch = useDispatch();
+    const isDarkTheme = useSelector(state => state.theme.isDarkTheme);
 
     const editdata = useSelector(state => state.expense.editexpense);
 
@@ -93,64 +94,65 @@ const ExpenseForm = ({ showForm, setShowForm, enteredTitle, setEnteredTitle, ent
 
     return (
         <>
-            <div className={classes["centered-container"]}>
-                {showForm ? (
-                    <div className={classes["form-box"]}>
-                        <form onSubmit={formSubmitHandler}>
-                            <div className={classes["new-expense__controls"]}>
-                                <div className={classes["new-expense__control"]}>
-                                    <label htmlFor="amount">Amount</label>
-                                    <input
-                                        type="number"
-                                        id="amount"
-                                        value={enteredAmount}
-                                        onChange={amountChangeHandler}
-                                    />
+                <div className={`${classes["centered-container"]}  ${isDarkTheme ? classes.darkTheme : ""}`}>
+                    {showForm ? (
+                        <div className={`${classes["form-box"]} ${isDarkTheme ? classes.darkTheme : ""}`}>
+                            <form onSubmit={formSubmitHandler}>
+                                <div className={`${classes["new-expense__controls"]} ${isDarkTheme ? classes.darkTheme : ""}`}>
+                                    <div className={classes["new-expense__control"]}>
+                                        <label htmlFor="amount">Amount</label>
+                                        <input
+                                            type="number"
+                                            id="amount"
+                                            value={enteredAmount}
+                                            onChange={amountChangeHandler}
+                                        />
+                                    </div>
+
+                                    <div className={classes["new-expense__control"]}>
+                                        <label htmlFor="description">Description</label>
+                                        <input
+                                            type="text"
+                                            id="description"
+                                            value={enteredDescription}
+                                            onChange={descriptionChangeHandler}
+                                        />
+                                    </div>
+
+                                    <div className={classes["new-expense__control"]}>
+                                        <label htmlFor="title">Title</label>
+                                        <select
+                                            id="title"
+                                            value={enteredTitle}
+                                            onChange={titleChangeHandler}
+                                        >
+                                            <option value="">Select Title</option>
+                                            <option>Food</option>
+                                            <option>Petrol</option>
+                                            <option>Salary</option>
+                                        </select>
+                                    </div>
                                 </div>
 
-                                <div className={classes["new-expense__control"]}>
-                                    <label htmlFor="description">Description</label>
-                                    <input
-                                        type="text"
-                                        id="description"
-                                        value={enteredDescription}
-                                        onChange={descriptionChangeHandler}
-                                    />
+                                <div className={classes["new-expense__actions"]}>
+                                    {editdata ? <button onClick={cancleeditdataHandler}>Cancle</button> : <button type="button" onClick={cancelFormHandler}>
+                                        Close
+                                    </button>}
+                                    {editdata ? <button type="button" onClick={editdataHandler}>Edit</button> : <button type="submit">Add Expense</button>}
                                 </div>
+                            </form>
+                        </div>
+                    ) : (
+                        <button
+                            type="button"
+                            onClick={showFormHandler}
+                            className={classes["add-expense-button"]}
+                        >
+                            Add Expense
+                        </button>
+                    )}
+                </div>
 
-                                <div className={classes["new-expense__control"]}>
-                                    <label htmlFor="title">Title</label>
-                                    <select
-                                        id="title"
-                                        value={enteredTitle}
-                                        onChange={titleChangeHandler}
-                                    >
-                                        <option value="">Select Title</option>
-                                        <option>Food</option>
-                                        <option>Petrol</option>
-                                        <option>Salary</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div className={classes["new-expense__actions"]}>
-                                {editdata ? <button onClick={cancleeditdataHandler}>Cancle</button> : <button type="button" onClick={cancelFormHandler}>
-                                    Close
-                                </button>}
-                                {editdata ? <button type="button" onClick={editdataHandler}>Edit</button> : <button type="submit">Add Expense</button>}
-                            </div>
-                        </form>
-                    </div>
-                ) : (
-                    <button
-                        type="button"
-                        onClick={showFormHandler}
-                        className={classes["add-expense-button"]}
-                    >
-                        Add Expense
-                    </button>
-                )}
-            </div>
         </>
     );
 }
