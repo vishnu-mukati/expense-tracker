@@ -1,6 +1,5 @@
 import { useState, useRef } from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import { Nav } from "react-bootstrap"
 import classes from './AuthForm.module.css';
 import axios from 'axios';
 import { authActions } from '../../store/AuthSlice';
@@ -121,9 +120,9 @@ const AuthForm = () => {
         </div>
 
         <div>
-          <Nav.Link href="/changepassword" className={classes.forgotPassword}>
+          <a href="/changepassword" className={classes.forgotPassword}>
             Forgot Password?
-          </Nav.Link>
+          </a>
         </div>
 
         <div className={classes.actions}>

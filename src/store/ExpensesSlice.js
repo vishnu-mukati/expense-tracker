@@ -23,7 +23,7 @@ const ExpensesSlice = createSlice({
            state.expensedata = [...state.expensedata ,action.payload];
         },
         dataloaded (state) {
-            state.dataloaded = true;
+            state.dataloaded = !state.dataloaded;
         }
        
     }

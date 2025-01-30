@@ -4,12 +4,12 @@ import { useState } from "react";
 
 const Welcome = () => {
 
-    const [enteredTitle, setEnteredTitle] = useState("");
+  const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredAmount, setEnteredAmount] = useState("");
   const [enteredDescription, setEnteredDescription] = useState("");
   const [showForm, setShowForm] = useState(false);
 
-   const setFormData = (item) =>{
+  const setFormData = (item) => {
 
     setEnteredTitle(item.title);
     setEnteredAmount(item.amount);

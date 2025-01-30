@@ -78,7 +78,7 @@
 
 /* Forgot Password link styling */
 .forgotPassword {
-  color: #ececec; /* Matching color to the rest of the form */
+  color: #9f5ccc;; /* Matching color to the rest of the form */
   text-decoration: none; /* Remove underline */
   font-weight: bold;
   display: inline-block; /* Ensure it stays on the same line */
@@ -93,5 +93,5 @@
 }
 
 .forgotPassword:active {
-  color: #6f2a9d; /* Darker color when clicked */
+  color: #ffffff; /* Darker color when clicked */
 }
