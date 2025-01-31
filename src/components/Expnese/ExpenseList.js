@@ -18,7 +18,6 @@ const ExpenseList = ({setFormData }) => {
       getdata();
     }
   },[dataloaded]);
-console.log(dataloaded);
   async function getdata() {
     try{
       const response = await axios.get('https://expense-tracker-data-eea66-default-rtdb.firebaseio.com/expenses.json');

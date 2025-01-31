@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import classes from './AuthForm.module.css';
 import axios from 'axios';
 import { authActions } from '../../store/AuthSlice';
@@ -10,14 +10,14 @@ const AuthForm = () => {
   const passwordInputRef = useRef();
   const confirmpasswordInputRef = useRef();
   const history = useHistory();
-  // const authCtx = useContext(AuthContext);
 
- const dispatch = useDispatch();
- const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
- const email = useSelector(state =>state.auth.email);
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const email = useSelector(state => state.auth.email);
 
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+ 
 
 
   const switchAuthModeHandler = () => {
@@ -57,31 +57,47 @@ const AuthForm = () => {
         returnSecureToken: true,
       })
       setIsLoading(false);
-      // authCtx.login(response.data.idToken, response.data.email);
-      dispatch(authActions.login({email : enteredEmail,token : response.data.idToken}))
-      token = response.data.idToken;
-      if (response.status === 200) {
-        console.log('User has successfully signed up');
+
+      // if(response && response.data){
+        dispatch(authActions.login({ email: enteredEmail, token: response.data.idToken }))
+        
+        token = response.data.idToken;
+        if (response.status === 200) {
+          console.log('User has successfully signed up');
+          // const userInforesponse = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDHMqQkqmIyImQE6qLDutjgiQ4dNMSFKVw',
+          //   {
+          //     idToken: token,
+          //   }
+          // );
+          // const emailvarified = userInforesponse.data.users[0].emailVarified;
+          // dispatch(authActions.login({emailVarified : emailvarified}))
+        }
+        // }
+        
+        
+      } catch (err) {
+        console.log(err);
+        // const errorMessage = err.response?.data?.error?.message;
+        // console.log(err.response.data.error.message);
+        alert(err.response.data.error.message.data);
+        // console.log(errorMessage);
+        // alert(errorMessage);
+        setIsLoading(false);
       }
-    } catch (err) {
-      alert(err.response.data.error.message);
-      setIsLoading(false);
-    }
+      
 
-
-    if(!isLogin){
+    if (!isLogin) {
       try {
         const response = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDHMqQkqmIyImQE6qLDutjgiQ4dNMSFKVw',
-            {
-                requestType: "VERIFY_EMAIL",
-                idToken: token,
-            },
-
+          {
+            requestType: "VERIFY_EMAIL",
+            idToken: token,
+          },
         )
         history.push("/");
-    } catch (err) {
+      } catch (err) {
         console.log(err.message);
-    }
+      }
     }
   };
 
@@ -115,8 +131,8 @@ const AuthForm = () => {
 
 
         <div className={classes.actions}>
-          {!isLoading && isLogin ? <button type='submit'  className={classes.actions}>  {isLoading ? "Sending request..." : "Login"} </button> : <button type='submit' className={classes.actions} > {isLoading ? "Sending request..." : "signup"} </button>}
-          
+          {!isLoading && isLogin ? <button type='submit' className={classes.actions}>  {isLoading ? "Sending request..." : "Login"} </button> : <button type='submit' className={classes.actions} > {isLoading ? "Sending request..." : "signup"} </button>}
+
         </div>
 
         <div>

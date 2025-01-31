@@ -52,7 +52,7 @@ const Navbar = () => {
 
                         <li className={classes.profile}>
                             <Link to="/" onClick={handleWelcomePageClick}>Welcome</Link>
-                            <p>Your profile is incomplete? <Link to="/completeprofile" onClick={handleCompleteNowClick}>Complete Now</Link></p>
+                            <p>Your profile is incomplete? <Link to="/completeprofile" type={Button} onClick={handleCompleteNowClick}>Complete Now</Link></p>
 
                         </li>
 
