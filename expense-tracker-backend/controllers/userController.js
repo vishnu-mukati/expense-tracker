@@ -21,7 +21,7 @@ const UserSignUp = async (req, res) => {
     }
 };
 
-
+// login controller
 
 const UserLogin = async (req, res) => {
  const { email, password } = req.body;
