@@ -3,6 +3,7 @@ import classes from "./CompleteProfile.module.css";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/AuthSlice";
+import { expenseAction } from "../store/ExpensesSlice";
 
 const CompleteProfile = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -29,6 +30,7 @@ const CompleteProfile = () => {
 
     const logOutHandler = () => {
         dispatch(authActions.logout());
+        dispatch(expenseAction.clearExpenses())
     }
 
     useEffect(() => {

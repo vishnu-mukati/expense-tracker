@@ -1,23 +1,22 @@
 import { useState, useRef } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import classes from './AuthForm.module.css';
 import axios from 'axios';
 import { authActions } from '../../store/AuthSlice';
 import { useHistory } from "react-router-dom";
 
 const AuthForm = () => {
+  const nameInputRef = useRef();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const confirmpasswordInputRef = useRef();
   const history = useHistory();
 
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-  const email = useSelector(state => state.auth.email);
 
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
- 
+
 
 
   const switchAuthModeHandler = () => {
@@ -29,17 +28,17 @@ const AuthForm = () => {
 
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
-
+    const enteredName = nameInputRef.current.value;
 
     setIsLoading(true);
 
 
     let url;
     if (isLogin) {
-      url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDHMqQkqmIyImQE6qLDutjgiQ4dNMSFKVw'
+      url = 'http://localhost:4000/user/login';
 
     } else {
-      url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDHMqQkqmIyImQE6qLDutjgiQ4dNMSFKVw'
+      url = 'http://localhost:4000/user/signup';
       const enteredConfirmPassword = confirmpasswordInputRef.current.value;
       if (enteredConfirmPassword !== enteredPassword) {
         alert('password does not match');
@@ -52,39 +51,34 @@ const AuthForm = () => {
 
     try {
       const response = await axios.post(url, {
+        name: enteredName,
         email: enteredEmail,
-        password: enteredPassword,
-        returnSecureToken: true,
+        password: enteredPassword
       })
       setIsLoading(false);
 
       // if(response && response.data){
-        dispatch(authActions.login({ email: enteredEmail, token: response.data.idToken }))
-        
-        token = response.data.idToken;
-        if (response.status === 200) {
-          console.log('User has successfully signed up');
-          // const userInforesponse = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDHMqQkqmIyImQE6qLDutjgiQ4dNMSFKVw',
-          //   {
-          //     idToken: token,
-          //   }
-          // );
-          // const emailvarified = userInforesponse.data.users[0].emailVarified;
-          // dispatch(authActions.login({emailVarified : emailvarified}))
-        }
-        // }
-        
-        
-      } catch (err) {
-        console.log(err);
-        // const errorMessage = err.response?.data?.error?.message;
-        // console.log(err.response.data.error.message);
-        alert(err.response.data.error.message.data);
-        // console.log(errorMessage);
-        // alert(errorMessage);
-        setIsLoading(false);
+      dispatch(authActions.login({ email: enteredEmail, token: response.data.idToken }))
+
+      token = response.data.idToken;
+      if (response.status === 200) {
+        console.log('User has successfully signed up');
+        // const userInforesponse = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDHMqQkqmIyImQE6qLDutjgiQ4dNMSFKVw',
+        //   {
+        //     idToken: token,
+        //   }
+        // );
+        // const emailvarified = userInforesponse.data.users[0].emailVarified;
+        // dispatch(authActions.login({emailVarified : emailvarified}))
       }
-      
+      // }
+
+
+    } catch (err) {
+      alert(err.response.data.error.message);
+      setIsLoading(false);
+    }
+
 
     if (!isLogin) {
       try {
@@ -104,55 +98,64 @@ const AuthForm = () => {
 
   return (
     <section className={classes.auth}>
-      <h1>{isLogin ? 'Login' : 'signup'}</h1>
+      <h1>{isLogin ? "Welcome Back 👋" : "Create Account ✨"}</h1>
       <form onSubmit={formSubmitHandler}>
+       {!isLogin && <div className={classes.control}>
+          <label htmlFor="name">Your Name</label>
+          <input type="text" id="name" required ref={nameInputRef} />
+        </div>}
         <div className={classes.control}>
-          <label htmlFor='email'>Your Email</label>
-          <input type='email' id='email' required ref={emailInputRef} />
+          <label htmlFor="email">Your Email</label>
+          <input type="email" id="email" required ref={emailInputRef} />
         </div>
-        <div className={classes.control}>
-          <label htmlFor='password'>Your Password</label>
-          <input
-            type='password'
-            id='password'
-            required
-            ref={passwordInputRef}
-          />
-        </div>
-        {!isLogin && (<div className={classes.control}>
-          <label htmlFor='confirm'>Confirm Password</label>
-          <input
-            type='password'
-            id='confirm'
-            required
-            ref={confirmpasswordInputRef}
-          />
-        </div>)}
 
+        <div className={classes.control}>
+          <label htmlFor="password">Your Password</label>
+          <input type="password" id="password" required ref={passwordInputRef} />
+        </div>
+
+        {!isLogin && (
+          <div className={classes.control}>
+            <label htmlFor="confirm">Confirm Password</label>
+            <input
+              type="password"
+              id="confirm"
+              required
+              ref={confirmpasswordInputRef}
+            />
+          </div>
+        )}
 
         <div className={classes.actions}>
-          {!isLoading && isLogin ? <button type='submit' className={classes.actions}>  {isLoading ? "Sending request..." : "Login"} </button> : <button type='submit' className={classes.actions} > {isLoading ? "Sending request..." : "signup"} </button>}
-
+          <button type="submit">
+            {isLoading
+              ? "Sending request..."
+              : isLogin
+                ? "Login"
+                : "Sign Up"}
+          </button>
         </div>
 
-        <div>
-          <a href="/changepassword" className={classes.forgotPassword}>
-            Forgot Password?
-          </a>
-        </div>
+        <a href="/changepassword" className={classes.forgotPassword}>
+          Forgot Password?
+        </a>
 
         <div className={classes.actions}>
           <button
-            type='button'
+            type="button"
             className={classes.toggle}
             onClick={switchAuthModeHandler}
           >
-            {isLogin ? "Don't have an account? Sign up" : 'Have an account?Login'}
+            {isLogin
+              ? "Don't have an account? Sign up"
+              : "Already have an account? Login"}
           </button>
         </div>
       </form>
     </section>
   );
+
 };
 
 export default AuthForm;
+

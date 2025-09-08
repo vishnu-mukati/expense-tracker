@@ -1,4 +1,108 @@
+
 .header {
+  width: 100%;
+  height: 5rem;
+  background: linear-gradient(135deg, #38015c, #6d28d9);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8%;
+  transition: background 0.3s ease;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.logo:hover {
+  color: #fbbf24;
+}
+
+.header ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.header li {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.header a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.header a:hover {
+  color: #fbbf24;
+}
+
+.header p {
+  color: #e5e5e5;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.profile a {
+  font-weight: bold;
+}
+
+.header button {
+  font: inherit;
+  background: linear-gradient(135deg, #9f5ccc, #6d28d9);
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 0.6rem 1.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.header button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(159, 92, 204, 0.5);
+}
+
+.header.darkTheme {
+  background: #121212;
+  color: #ffffff;
+}
+
+.header.darkTheme a {
+  color: #ffffff;
+}
+
+.header.darkTheme a:hover {
+  color: #9f5ccc;
+}
+
+
+
+/* .header {
     width: 100%;
     height: 5rem;
     background-color: #38015c;
@@ -11,14 +115,14 @@
   }
 
   .profile {
-    display: flex; /* Arrange items horizontally */
-    align-items: center; /* Align vertically in the center */
-    gap: 1rem; /* Add spacing between "Welcome" and the text */
+    display: flex; 
+    align-items: center; 
+    gap: 1rem;
   }
   
   .profile p {
-    margin: 0; /* Remove default margin */
-    color: white; /* Keep text white */
+    margin: 0; 
+    color: white;
   }
   
   .profile a {
@@ -28,7 +132,7 @@
   }
   
   .profile a:hover {
-    color: #c291e2; /* Add hover effect */
+    color: #c291e2; 
   }
   
   .logo {
@@ -83,6 +187,6 @@
   }
 
   .header.darkTheme {
-    background-color: #121212; /* Dark background */
-    color: #ffffff; /* White text */
-  }
+    background-color: #121212; 
+    color: #ffffff; 
+  }  */

@@ -13,9 +13,9 @@ const authSlice = createSlice({
     initialState: initialAuthState,
     reducers: {
         login(state, action) {
-            const { email, token } = action.payload;
+           const { email, token } = action.payload;
             state.token = token;
-            state.email = email.replace(/[@.]/g, "");
+            state.email = email.replace(/[@.]/g, "_");
             state.isAuthenticated = true;
             localStorage.setItem('token', token);
             localStorage.setItem('email', state.email);

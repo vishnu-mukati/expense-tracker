@@ -10,6 +10,8 @@ const ExpenseForm = ({ showForm, setShowForm, enteredTitle, setEnteredTitle, ent
     const isDarkTheme = useSelector(state => state.theme.isDarkTheme);
 
     const editdata = useSelector(state => state.expense.editexpense);
+    const userEmail = useSelector(state=>state.auth.email);
+    console.log(userEmail);
 
     const titleChangeHandler = (event) => {
 
@@ -17,8 +19,13 @@ const ExpenseForm = ({ showForm, setShowForm, enteredTitle, setEnteredTitle, ent
     }
 
     const amountChangeHandler = (event) => {
+        if(event.target.value>=0){
+            setEnteredAmount(event.target.value);
 
-        setEnteredAmount(event.target.value);
+        }else{
+            alert('please put some positive value');
+        }
+
     }
 
     const descriptionChangeHandler = (event) => {
@@ -36,11 +43,11 @@ const ExpenseForm = ({ showForm, setShowForm, enteredTitle, setEnteredTitle, ent
 
     async function editdataHandler() {
         try {
-            const expenseToEdit = editdata.item; console.log(expenseToEdit.id);
+            const expenseToEdit = editdata.item;
             // Update the existing expense entry in Firebase using its `id` 
             const updatedExpense = { title: enteredTitle, amount: enteredAmount, description: enteredDescription, };
 
-            await axios.put(`https://expense-tracker-data-eea66-default-rtdb.firebaseio.com/expenses/${expenseToEdit.id}.json`, updatedExpense);
+            await axios.put(`https://expense-tracker-data-eea66-default-rtdb.firebaseio.com/${userEmail}/${expenseToEdit.id}.json`, updatedExpense);
 
             const updatedExpenseWithId = { id: expenseToEdit.id, ...updatedExpense };
             console.log(updatedExpenseWithId);
@@ -72,10 +79,8 @@ const ExpenseForm = ({ showForm, setShowForm, enteredTitle, setEnteredTitle, ent
             description: enteredDescription,
         }
         // Expensectx.addexpense(ExpenseData);
-
-        //
         try {
-            const response = await axios.post('https://expense-tracker-data-eea66-default-rtdb.firebaseio.com/expenses.json', ExpenseData)
+            const response = await axios.post(`https://expense-tracker-data-eea66-default-rtdb.firebaseio.com/${userEmail}.json`, ExpenseData)
             const newexpense = { id: response.data.name, ...ExpenseData };
             dispatch(expenseAction.addexpense(newexpense));
         } catch (err) {

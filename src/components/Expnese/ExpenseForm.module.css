@@ -3,53 +3,60 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* height: 100vh; */
   flex-direction: column;
   gap: 1rem;
-  border: 2px solid black;
-  border-radius: 8px; /* Rounded corners */
   padding: 2rem;
-  background-color: #f4f4f4; /* Light background color */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f9fafb, #e5e7eb);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* Form box styling */
 .form-box {
   width: 100%;
-  max-width: 600px; /* Maximum width of the form */
-  padding: 1rem;
-  border-radius: 8px;
-  background-color: white;
-  border: 1px solid #ccc; /* Border for the box */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  padding: 2rem;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* Style for the controls in the form */
 .new-expense__controls {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
   text-align: left;
 }
 
-/* Input and Select styling */
 .new-expense__control label {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  display: block;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+  color: #333;
 }
 
 .new-expense__control input,
 .new-expense__control select {
   font: inherit;
-  padding: 0.5rem;
-  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
   border: 1px solid #ccc;
   width: 100%;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Action buttons at the bottom of the form */
+.new-expense__control input:focus,
+.new-expense__control select:focus {
+  outline: none;
+  border-color: #9f5ccc;
+  box-shadow: 0 0 8px rgba(159, 92, 204, 0.5);
+}
+
+/* Action buttons */
 .new-expense__actions {
   display: flex;
   justify-content: flex-end;
@@ -58,54 +65,75 @@
 
 .new-expense__actions button {
   font: inherit;
-  padding: 0.5rem 1rem;
-  border: 1px solid #40005d;
-  background-color: #40005d;
-  color: white;
-  border-radius: 6px;
+  font-weight: 600;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  border: none;
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.new-expense__actions button:hover,
-.new-expense__actions button:active {
-  background-color: #510674;
-  border-color: #510674;
+.new-expense__actions button[type="submit"],
+.new-expense__actions button[type="button"]:not(:first-child) {
+  background: linear-gradient(135deg, #9f5ccc, #6d28d9);
+  color: white;
 }
 
-/* Style for the Add Expense button */
+.new-expense__actions button[type="submit"]:hover,
+.new-expense__actions button[type="button"]:not(:first-child):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(159, 92, 204, 0.4);
+}
+
+.new-expense__actions button:first-child {
+  background: #e5e7eb;
+  color: #333;
+}
+
+.new-expense__actions button:first-child:hover {
+  background: #d1d5db;
+}
+
+/* Add Expense button */
 .add-expense-button {
-  padding: 0.5rem 1rem;
+  padding: 0.7rem 2rem;
   font-size: 1rem;
-  background-color: #40005d;
+  font-weight: 600;
+  background: linear-gradient(135deg, #9f5ccc, #6d28d9);
   color: white;
-  border: 1px solid #40005d;
-  border-radius: 6px;
+  border: none;
+  border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .add-expense-button:hover {
-  background-color: #510674;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(109, 40, 217, 0.4);
 }
 
-.centered-container.darkTheme  {
-  background-color: #121212; /* Dark background */
-  color: #ffffff; /* White text */
+/* Dark Mode */
+.centered-container.darkTheme {
+  background: #121212;
+  color: #fff;
 }
 
-.new-expense__controls.darkTheme{
-  background-color: #484848;
-  color: #ffffff;
+.form-box.darkTheme {
+  background: #1f1f1f;
+  color: #fff;
 }
 
-
-.form-box.darkTheme{
-  background-color: #484848;
-  color: #ffffff;
-}
-.new-expense__actions.darkTheme{
-  background-color: #121212;
-  color: #ffffff;
+.new-expense__control label.darkTheme {
+  color: #e5e5e5;
 }
 
+.new-expense__control input.darkTheme,
+.new-expense__control select.darkTheme {
+  background: #2c2c2c;
+  color: #fff;
+  border: 1px solid #555;
+}
 
+.new-expense__actions button.darkTheme {
+  border: none;
+}

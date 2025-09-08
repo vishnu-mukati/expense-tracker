@@ -34,12 +34,9 @@ const ChangePassword = () => {
                     <button>Send</button>
                 </div>
             </form>
-            
+
             <p>
                 Already a user?
-                {/* <Nav.Link href="/auth" >
-                    LogIn
-                </Nav.Link> */}
             </p>
             <div className={classes.loginLink}>
             <Nav.Link href="/auth" >
@@ -51,4 +48,4 @@ const ChangePassword = () => {
     );
 }
 
-export default ChangePassword;
+export default ChangePassword;  
