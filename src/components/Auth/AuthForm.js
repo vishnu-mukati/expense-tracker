@@ -6,10 +6,14 @@ import { authActions } from '../../store/AuthSlice';
 import { useHistory } from "react-router-dom";
 
 const AuthForm = () => {
-  const nameInputRef = useRef();
-  const emailInputRef = useRef();
-  const passwordInputRef = useRef();
-  const confirmpasswordInputRef = useRef();
+  // const nameInputRef = useRef();
+  // const emailInputRef = useRef();
+  // const passwordInputRef = useRef();
+  // const confirmpasswordInputRef = useRef();
+   const [name,setName]=useState('');
+    const [email,setEmail]=useState('');
+    const [password,setPassword]=useState('');
+    const [confirmpassword,setConfirmPassword]=useState('');  
   const history = useHistory();
 
   const dispatch = useDispatch();
@@ -26,30 +30,30 @@ const AuthForm = () => {
   async function formSubmitHandler(event) {
     event.preventDefault();
 
-    const enteredEmail = emailInputRef.current.value;
-    const enteredPassword = passwordInputRef.current.value;
-    const enteredName = nameInputRef.current.value;
+    const enteredEmail = email;
+    const enteredPassword = password;
+    const confirmedPassword = confirmpassword;
 
     setIsLoading(true);
 
-
-    let url;
-    if (isLogin) {
-      url = 'http://localhost:4000/user/login';
-
-    } else {
-      url = 'http://localhost:4000/user/signup';
-      const enteredConfirmPassword = confirmpasswordInputRef.current.value;
-      if (enteredConfirmPassword !== enteredPassword) {
-        alert('password does not match');
-        return;
-      }
-
-    };
-
+      let url;
+      if (isLogin) {
+        url = 'http://localhost:4000/user/login';
+        
+      } else {
+        
+        url = 'http://localhost:4000/user/signup';
+        const enteredConfirmedPassword = confirmedPassword;
+        if (enteredConfirmedPassword !== enteredPassword) {
+          alert('password does not match');
+          return;
+        }
+      };
+      
     let token;
-
+    
     try {
+      const enteredName = name;
       const response = await axios.post(url, {
         name: enteredName,
         email: enteredEmail,
@@ -62,37 +66,28 @@ const AuthForm = () => {
 
       token = response.data.idToken;
       if (response.status === 200) {
-        console.log('User has successfully signed up');
-        // const userInforesponse = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDHMqQkqmIyImQE6qLDutjgiQ4dNMSFKVw',
-        //   {
-        //     idToken: token,
-        //   }
-        // );
-        // const emailvarified = userInforesponse.data.users[0].emailVarified;
-        // dispatch(authActions.login({emailVarified : emailvarified}))
+        history.push("/");
       }
-      // }
-
-
     } catch (err) {
-      alert(err.response.data.error.message);
+      alert(err.response.data.message || 'Something went wrong!');
+      console.log(err);
       setIsLoading(false);
     }
 
 
-    if (!isLogin) {
-      try {
-        const response = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDHMqQkqmIyImQE6qLDutjgiQ4dNMSFKVw',
-          {
-            requestType: "VERIFY_EMAIL",
-            idToken: token,
-          },
-        )
-        history.push("/");
-      } catch (err) {
-        console.log(err.message);
-      }
-    }
+    // if (!isLogin) {
+    //   try {
+    //     const response = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDHMqQkqmIyImQE6qLDutjgiQ4dNMSFKVw',
+    //       {
+    //         requestType: "VERIFY_EMAIL",
+    //         idToken: token,
+    //       },
+    //     )
+    //     history.push("/");
+    //   } catch (err) {
+    //     console.log(err.message);
+    //   }
+    // }
   };
 
 
@@ -100,18 +95,18 @@ const AuthForm = () => {
     <section className={classes.auth}>
       <h1>{isLogin ? "Welcome Back 👋" : "Create Account ✨"}</h1>
       <form onSubmit={formSubmitHandler}>
-       {!isLogin && <div className={classes.control}>
+        {!isLogin && <div className={classes.control}>
           <label htmlFor="name">Your Name</label>
-          <input type="text" id="name" required ref={nameInputRef} />
+          <input type="text" id="name" required  onChange={(e) => setName(e.target.value)} />
         </div>}
         <div className={classes.control}>
           <label htmlFor="email">Your Email</label>
-          <input type="email" id="email" required ref={emailInputRef} />
+          <input type="email" id="email" required  onChange={(e) => setEmail(e.target.value)} />
         </div>
 
         <div className={classes.control}>
           <label htmlFor="password">Your Password</label>
-          <input type="password" id="password" required ref={passwordInputRef} />
+          <input type="password" id="password" required  onChange={(e) => setPassword(e.target.value)} />
         </div>
 
         {!isLogin && (
@@ -121,7 +116,7 @@ const AuthForm = () => {
               type="password"
               id="confirm"
               required
-              ref={confirmpasswordInputRef}
+              onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </div>
         )}
