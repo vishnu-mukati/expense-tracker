@@ -9,6 +9,7 @@ app.use(cors());
 
 app.use('/user',userRouter);
 
+
 db.sync().then(()=>{
     app.listen(4000,(err)=>{
         console.log("server is running");
